@@ -33,7 +33,7 @@ void main() {
 		col += light[i].col * base * light[i].strength * max(0.0, dot(fragNorm, fragLight)) / (dist * dist);
 
 		//specular 
-		col += vec3(1.0) * pow(0.0, dot(fragNorm, fragLight)), 32) * light[i].strength / (dist * dist);
+		col += vec3(1.0) * pow(max(0.0, dot(fragNorm, fragLight)), 32) * light[i].strength / (dist * dist);
 	}
 
 	//final colour with alpha channel 

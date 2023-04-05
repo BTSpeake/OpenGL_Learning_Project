@@ -1,0 +1,41 @@
+#version 450 core 
+
+struct PointLight{
+	vec3 pos; 
+	vec3 col;
+	float strength;
+};
+
+in vec2 fragTex;
+in vec3 fragPos; 
+in vec3 fragNorm;
+
+out vec4 finalColour; 
+uniform sampler2D basTex; 
+uniform PointLight[3] light; 
+uniform vec3 camPos; 
+
+void main() {
+	vec3 base = texture(basTex, fragTex).rgb;
+	
+	// ambient
+	vec3 col = 0.2 * base; 
+	
+	for (int i = 0; i < 3; i++) {
+		//geometric data 
+		vec3 fragLight = light[i].pos - fragPos;
+		float dist = length(fragLight);
+		fragLight = normalize(fragLight);
+		vec3 fragCam = normalize(camPos - fragPos);
+		vec3 halfVec = normalize(fragLight + fragCam);
+
+		//diffuse 
+		col += light[i].col * base * light[i].strength * max(0.0, dot(fragNorm, fragLight)) / (dist * dist);
+
+		//specular 
+		col += vec3(1.0) * pow(0.0, dot(fragNorm, fragLight)), 32) * light[i].strength / (dist * dist);
+	}
+
+	//final colour with alpha channel 
+	finalColour = vec4(col, 1.0);
+}

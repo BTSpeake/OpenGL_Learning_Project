@@ -1,7 +1,9 @@
 #pragma once 
 #include "../config.h"
 #include "scene.h"
-#include "shader.h"
+#include "../Utils/shader.h"
+#include "../Model/SkyBox.h"
+
 
 struct LightLoc {
 	std::array<unsigned int, 3> colLoc, posLoc, strLoc;
@@ -18,4 +20,6 @@ public:
 	unsigned int viewLoc; 
 	unsigned int modelLoc;
 	LightLoc lights;
+	SkyBox skyBox;
+	
 };

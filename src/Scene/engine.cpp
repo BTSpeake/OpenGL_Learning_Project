@@ -30,9 +30,21 @@ Engine::Engine(int w, int h) {
 	viewLoc = glGetUniformLocation(shader, "view");
 	modelLoc = glGetUniformLocation(shader, "model");
 
+	//skyBox = SkyBox();
+	//glUseProgram(skyBox.shader);
+	//glUniformMatrix4fv(
+	//	glGetUniformLocation(skyBox.shader, "proj"),
+	//	1, GL_FALSE, glm::value_ptr(projM)
+	//);
+
 }
 
 void Engine::render(Scene* scene) {
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//skyBox.render(scene);
+	
+	glUseProgram(shader);
 	glm::mat4 viewM{
 		glm::lookAt(
 			scene->player->position,
@@ -42,8 +54,8 @@ void Engine::render(Scene* scene) {
 	};
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewM));
 
-	glm::mat4 modelM{ glm::mat4(1.0f) };
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelM));
+	//glm::mat4 modelM{ glm::mat4(1.0f) };
+	//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelM));
 
 	glUniform3fv(camPosLoc, 1, glm::value_ptr(scene->player->position));
 	int i{ 0 };
@@ -53,10 +65,7 @@ void Engine::render(Scene* scene) {
 		glUniform1f(lights.strLoc[i], light->strength);
 		++i;
 	}
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(shader);
-	
+	scene->cube->render(shader);
 }
 
 Engine::~Engine() {

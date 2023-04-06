@@ -123,13 +123,15 @@ returnCode GameApp::processInput() {
 
 	}
 
+	frameTime = 5;
+
 	if (walking) {
+		// Orientate walk direction with the players forward vector
+		glm::vec3 forwards = glm::cos(glm::radians(walk_dir)) * scene->player->forwards;
+		glm::vec3 sideways = glm::sin(glm::radians(walk_dir)) * glm::cross(scene->player->forwards, scene->player->up);
+
 		scene->movePlayer(
-			0.1f * frameTime / 16.0f * glm::vec3{
-				glm::sin(glm::radians(walk_dir)),
-				glm::cos(glm::radians(walk_dir)),
-				0.0f
-			}
+			0.1f * frameTime / 16.0f * (forwards + sideways)
 		);
 	}
 
@@ -142,7 +144,7 @@ returnCode GameApp::processInput() {
 
 	scene->spinPlayer(
 		frameTime / 16.0f * glm::vec3{
-			0.0f, delta_y, delta_x
+			-delta_y, delta_x, 0.0f
 		}
 	);
 

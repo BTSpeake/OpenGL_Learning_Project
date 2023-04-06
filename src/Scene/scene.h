@@ -2,6 +2,7 @@
 #include "../config.h"
 #include "../Model/lighting.h"
 #include "../Model/player.h"
+#include "../Model/cube.h"
 
 class Scene {
 public:
@@ -13,4 +14,5 @@ public:
 
 	Player* player; 
 	std::vector<Light*> lights;
+	Cube* cube;
 };

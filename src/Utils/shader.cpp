@@ -36,7 +36,9 @@ unsigned int util::load_shader(const char* vfPth, const char* ffPth) {
 	glGetShaderiv(vShader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(vShader, 1024, NULL, errLog);
-		std::cout << "Vertex shader compilation error\n" << errLog << "\n";
+		std::cout << "Vertex shader compilation error\n"; 
+		std::cout << "Error associated with file: " << vfPth << '\n';
+		std::cout << errLog << "\n";
 	}
 
 	// Create fragment shader 
@@ -46,7 +48,9 @@ unsigned int util::load_shader(const char* vfPth, const char* ffPth) {
 	glGetShaderiv(fShader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(fShader, 1024, NULL, errLog);
-		std::cout << "Fragment shader compilation error\n" << errLog << "\n";
+		std::cout << "Fragment shader compilation error\n";
+		std::cout << "Error associated with file: " << ffPth << '\n';
+		std::cout << errLog << "\n";
 	}
 
 	// Link shaders 
@@ -55,7 +59,7 @@ unsigned int util::load_shader(const char* vfPth, const char* ffPth) {
 	glAttachShader(shader, fShader);
 	glLinkProgram(shader);
 	glGetProgramiv(shader, GL_LINK_STATUS, &success);
-	if (&success) {
+	if (!success) {
 		glGetProgramInfoLog(shader, 1024, NULL, errLog);
 		std::cout << "Shader program linking error\n" << errLog << "\n";
 	}

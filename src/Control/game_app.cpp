@@ -43,13 +43,15 @@ GameApp::GameApp(int w, int h) {
 returnCode GameApp::mainLoop() {
 	// Calculate frame time 
 	currTime = static_cast<float>(glfwGetTime());
-	float dTime = currTime - lastTime;
+	//float dTime = currTime - lastTime;
+	frameTime = currTime - lastTime;
 	lastTime = currTime;
+	//frameTime = dTime;
 	// Process the keyboard inputs 
 	returnCode nextAction{ processInput() };
 	glfwPollEvents();
 	// Update the scene 
-	scene->update(dTime);
+	scene->update(frameTime);
 	glfwSwapBuffers(window);
 
 	return nextAction;
@@ -129,8 +131,11 @@ returnCode GameApp::processInput() {
 		glm::vec3 forwards = glm::cos(glm::radians(walk_dir)) * scene->player->forwards;
 		glm::vec3 sideways = glm::sin(glm::radians(walk_dir)) * glm::cross(scene->player->forwards, scene->player->up);
 
+		//scene->player->movePlayer(
+		//	0.1f * frameTime / 16.0f * (forwards + sideways)
+		//);
 		scene->player->movePlayer(
-			0.1f * frameTime / 16.0f * (forwards + sideways)
+			5.0f * frameTime * (forwards + sideways)
 		);
 	}
 
@@ -142,7 +147,7 @@ returnCode GameApp::processInput() {
 	float delta_y{ static_cast<float>(mouse_y - static_cast<double>(h / 2)) };
 
 	scene->player->spinPlayer(
-		frameTime / 16.0f * glm::vec3{
+		0.1f  * glm::vec3{
 			-delta_y, delta_x, 0.0f
 		}
 	);

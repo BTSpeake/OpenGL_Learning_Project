@@ -4,7 +4,7 @@ unsigned int util::load_shader(const char* vfPth, const char* ffPth) {
 	int success;
 	char errLog[1024];
 
-	std::ifstream fileReader; 
+	std::ifstream fileReader;
 	std::stringstream bufferedLines;
 	std::string line;
 
@@ -13,7 +13,7 @@ unsigned int util::load_shader(const char* vfPth, const char* ffPth) {
 	while (std::getline(fileReader, line)) {
 		bufferedLines << line << '\n';
 	}
-	
+
 	std::string vSstr = bufferedLines.str();
 	const char* vSsrc = vSstr.c_str();
 	bufferedLines.str("");
@@ -36,7 +36,7 @@ unsigned int util::load_shader(const char* vfPth, const char* ffPth) {
 	glGetShaderiv(vShader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(vShader, 1024, NULL, errLog);
-		std::cout << "Vertex shader compilation error\n"; 
+		std::cout << "Vertex shader compilation error\n";
 		std::cout << "Error associated with file: " << vfPth << '\n';
 		std::cout << errLog << "\n";
 	}
@@ -67,6 +67,6 @@ unsigned int util::load_shader(const char* vfPth, const char* ffPth) {
 	// Clean up redundant individual shaders 
 	glDeleteShader(vShader);
 	glDeleteShader(fShader);
-	
+
 	return shader;
 }

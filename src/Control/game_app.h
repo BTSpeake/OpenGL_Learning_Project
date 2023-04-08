@@ -1,7 +1,6 @@
 #pragma once 
 #include "../config.h"
-#include "../Scene/scene.h"
-#include "../Scene/engine.h"
+#include "scene.h"
 
 enum class returnCode {
 	CONTINUE, QUIT
@@ -13,16 +12,13 @@ public:
 	~GameApp();
 	returnCode mainLoop();
 private:
-	GLFWwindow* makeWindow();
 	returnCode processInput();
-	void calculateFrameRate();
+	//void calculateFrameRate();
 
 	GLFWwindow* window;
 	int w, h;
-	Scene* scene;
-	Engine* renderer;
-
-	double lastTime, currTime; 
-	int nFrames; 
-	float frameTime; 
+	Scene* scene; 
+	double lastTime, currTime;
+	int nFrames;
+	float frameTime;
 };

@@ -23,7 +23,7 @@ std::vector<float> util::load_model_from_file(const char* fname, glm::mat4 preTr
 				1
 			};
 			pos = preTransform * pos;
-			
+
 			// Normals 
 			glm::vec3 normal = {
 				attributes.normals[3 * index.normal_index],
@@ -31,7 +31,7 @@ std::vector<float> util::load_model_from_file(const char* fname, glm::mat4 preTr
 				attributes.normals[3 * index.normal_index + 2]
 			};
 			normal = glm::normalize(glm::mat3(preTransform) * normal);
-			
+
 			// Textue coordinates
 			glm::vec2 texCoord = {
 				attributes.texcoords[2 * index.texcoord_index],

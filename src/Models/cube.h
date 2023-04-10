@@ -7,6 +7,8 @@ struct CubeCreateInfo {
 	glm::vec3 pos, eulers;
 	//unsigned int shader;
 	glm::mat4 preT; 
+	const char* objPath;
+	const char* texPath;
 };
 
 class Cube {
@@ -19,5 +21,5 @@ public:
 private:
 	unsigned int VAO, VBO, nVerts, textureID;
 	void createVAO(std::vector<float> vertices);
-	void createTexture();
+	void createTexture(const char* texPath);
 };

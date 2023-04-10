@@ -2,6 +2,7 @@
 #include "../Models/player.h"
 #include "../Utils/shader.h"	
 #include "../Models/cube.h"	
+#include "../Models/sphere.h"
 #include "../Models/skybox.h"
 
 class Scene {
@@ -11,8 +12,9 @@ public:
 	void update(float rate);
 	Player* player;
 private:
-	unsigned int mainShader; 
+	unsigned int mainShader, reflectShader; 
 	int w, h;
 	Cube* cube;
+	Sphere* sphere;
 	SkyBox* skybox;
 };

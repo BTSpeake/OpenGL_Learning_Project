@@ -14,12 +14,29 @@ Scene::Scene(int w, int h) {
 	glm::mat4 projM = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 100.0f);
 	glUniformMatrix4fv(glGetUniformLocation(mainShader, "proj"), 1, GL_FALSE, glm::value_ptr(projM));
 
+	// Make a reflective shader program 
+	reflectShader = util::load_shader(
+		"Resources/Shaders/reflection.vs", "Resources/Shaders/reflection.fs"
+	);
+
+
 	// Make a cube object
 	CubeCreateInfo cubeInfo;
 	cubeInfo.preT = glm::mat4(1.0f);
 	cubeInfo.eulers = { 0.0f, 0.0f, 0.0f };
 	cubeInfo.pos = { 0.0f, 0.5f, -10.0f };
+	cubeInfo.objPath = "Resources/Mesh/cube.obj";
+	cubeInfo.texPath = "Resources/Textures/wood.jpg";
 	cube = new Cube(&cubeInfo);
+
+	// Make a reflective sphere object 
+	SphereCreateInfo sphrInfo;
+	sphrInfo.preT = glm::mat4(1.0f);
+	sphrInfo.eulers = { 0.0f, 0.0f, 0.0f };
+	sphrInfo.pos = { 5.0f, 1.0f, -10.0f };
+	sphrInfo.objPath = "Resources/Mesh/sphere.obj";
+	sphere = new Sphere(&sphrInfo);
+	sphere->setProjection(projM);
 
 	// Make skybox 
 	skybox = new SkyBox();
@@ -41,6 +58,10 @@ void Scene::update(float rate) {
 	glUniformMatrix4fv(glGetUniformLocation(mainShader, "view"), 1, GL_FALSE, glm::value_ptr(viewM));
 	
 	cube->render(mainShader);
+
+	sphere->setView(viewM);
+	sphere->setCameraPosition(player->position);
+	sphere->render(skybox->textureID);
 
 	skybox->render(viewM);
 }

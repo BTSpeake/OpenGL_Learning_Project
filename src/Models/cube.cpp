@@ -4,17 +4,19 @@ Cube::Cube(CubeCreateInfo* createInfo) {
 	this->pos = createInfo->pos;
 	this->eulers = createInfo->eulers;
 
-	std::vector<float> vertices = util::load_model_from_file("Resources/Mesh/cube.obj", createInfo->preT);
+	std::vector<float> vertices = util::load_model_from_file(
+		createInfo->objPath, createInfo->preT
+	);
 
 	createVAO(vertices);
-	createTexture();
+	createTexture(createInfo->texPath);
 }
 
 void Cube::createVAO(std::vector<float> vertices) {
 	// Create the VAO and VBO objects for the cube object 
 
 	nVerts = vertices.size() / 8;
-	std::cout << "Cube vertices: " << nVerts << '\n';
+	//std::cout << "Cube vertices: " << nVerts << '\n';
 	glCreateBuffers(1, &VBO);
 	glCreateVertexArrays(1, &VAO);
 	glVertexArrayVertexBuffer(VAO, 0, VBO, 0, 8 * sizeof(float));
@@ -36,10 +38,10 @@ void Cube::createVAO(std::vector<float> vertices) {
 	glVertexArrayAttribBinding(VAO, 2, 0);
 }
 
-void Cube::createTexture() {
+void Cube::createTexture(const char* texPath) {
 	int w, h;
 	//image material = util::load_image_from_file("Resources/Textures/wood.jpg", 4);
-	image material = util::load_image_from_file("Resources/Textures/wood.jpg", 4);
+	image material = util::load_image_from_file(texPath, 4);
 	w = material.w;
 	h = material.h;
 	unsigned char* data = material.pixels;
@@ -65,6 +67,9 @@ void Cube::update(float rate) {
 }
 
 void Cube::render(unsigned int shader) {
+
+	glEnable(GL_CULL_FACE);
+
 	// Activate the correct shader and texture
 	glUseProgram(shader);
 	glBindTextureUnit(0, textureID);
@@ -79,6 +84,8 @@ void Cube::render(unsigned int shader) {
 }
 
 Cube::~Cube() {
-
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteTextures(1, &textureID);
 }
 

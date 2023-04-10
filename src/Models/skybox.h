@@ -8,8 +8,8 @@ public:
 	SkyBox();
 	~SkyBox();
 	void render(glm::mat4 viewM);
-	unsigned int shader;
+	unsigned int shader, textureID;
 private:
 	void loadCubemap(std::vector<std::string> faces);
-	unsigned int VAO, VBO, textureID;
+	unsigned int VAO, VBO;
 };

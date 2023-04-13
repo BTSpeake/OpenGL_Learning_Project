@@ -11,6 +11,7 @@ public:
 	Scene(int w, int h);
 	~Scene();
 	void update(float rate);
+	bool checkCollision(glm::vec3 nPos);
 	Player* player;
 private:
 	unsigned int mainShader, reflectShader; 

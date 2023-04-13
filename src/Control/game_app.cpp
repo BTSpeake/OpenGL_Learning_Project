@@ -131,12 +131,16 @@ returnCode GameApp::processInput() {
 		glm::vec3 forwards = glm::cos(glm::radians(walk_dir)) * scene->player->forwards;
 		glm::vec3 sideways = glm::sin(glm::radians(walk_dir)) * glm::cross(scene->player->forwards, scene->player->up);
 
+		
+		glm::vec3 dPos = 5.0f * frameTime * (forwards + sideways);
+		dPos.y = 0.0f;
+		glm::vec3 nPos = scene->player->position + dPos; 
+		if (!scene->checkCollision(nPos)) {
+			scene->player->movePlayer(nPos);
+		}
 		//scene->player->movePlayer(
-		//	0.1f * frameTime / 16.0f * (forwards + sideways)
+		//	5.0f * frameTime * (forwards + sideways)
 		//);
-		scene->player->movePlayer(
-			5.0f * frameTime * (forwards + sideways)
-		);
 	}
 
 	double mouse_x, mouse_y;

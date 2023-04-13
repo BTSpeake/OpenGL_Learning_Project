@@ -75,6 +75,20 @@ void Scene::update(float rate) {
 	skybox->render(viewM);
 }
 
+bool Scene::checkCollision(glm::vec3 nPos) {
+	// Check for collision with cube
+	float dist = glm::l2Norm(cube->pos - nPos);
+	if (dist < 2.5) {
+		return true;
+	}
+	// Check for collision with sphere 
+	dist = glm::l2Norm(sphere->pos - nPos);
+	if (dist < 0.5) {
+		return true;
+	}
+	return false;
+}
+
 Scene::~Scene() {
 	delete cube;
 	delete player;

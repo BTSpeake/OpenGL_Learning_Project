@@ -18,9 +18,10 @@ void Player::updateVectors() {
 	up = glm::normalize(glm::cross(right, forwards));
 }
 
-void Player::movePlayer(glm::vec3 dPos) {
-	position.x += dPos.x;
-	position.z += dPos.z;
+void Player::movePlayer(glm::vec3 nPos) {
+	//position.x += dPos.x;
+	//position.z += dPos.z;
+	position = nPos;
 }
 
 void Player::spinPlayer(glm::vec3 dEul) {

@@ -14,6 +14,14 @@ Scene::Scene(int w, int h) {
 	glm::mat4 projM = glm::perspective(glm::radians(45.0f), (float)w / (float)h, 0.1f, 100.0f);
 	glUniformMatrix4fv(glGetUniformLocation(mainShader, "proj"), 1, GL_FALSE, glm::value_ptr(projM));
 
+	// Create light source 
+	LightCreateInfo lightInfo;
+	lightInfo.pos = { 0.0f, 1.0f, 0.0f };
+	lightInfo.col = { 0.9f, 0.9f, 0.9f };
+	lightInfo.strength = 10.0f;
+	light = new Light(&lightInfo);
+	light->addLightToShader(mainShader);
+
 	// Make a reflective shader program 
 	reflectShader = util::load_shader(
 		"Resources/Shaders/reflection.vs", "Resources/Shaders/reflection.fs"
@@ -56,7 +64,8 @@ void Scene::update(float rate) {
 	glm::mat4 viewM = player->getViewMatrix();
 	glUseProgram(mainShader);
 	glUniformMatrix4fv(glGetUniformLocation(mainShader, "view"), 1, GL_FALSE, glm::value_ptr(viewM));
-	
+	glUniform3fv(glGetUniformLocation(mainShader, "camPos"), 1, glm::value_ptr(player->position));
+
 	cube->render(mainShader);
 
 	sphere->setView(viewM);
@@ -67,5 +76,8 @@ void Scene::update(float rate) {
 }
 
 Scene::~Scene() {
-	
+	delete cube;
+	delete player;
+	//delete skybox;
+	delete light;
 }

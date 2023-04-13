@@ -4,6 +4,7 @@
 #include "../Models/cube.h"	
 #include "../Models/sphere.h"
 #include "../Models/skybox.h"
+#include "../Models/light.h"
 
 class Scene {
 public:
@@ -17,4 +18,5 @@ private:
 	Cube* cube;
 	Sphere* sphere;
 	SkyBox* skybox;
+	Light* light;
 };
